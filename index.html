@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner - Daily Schedule (iOS 26 Concept)</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚫</text></svg>"> -->
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+    <div class="liquid-background" id="water-background"></div>
+    
+    <div class="container">
+        <header class="liquid-header">
+            <div class="header-content">
+                <h1 class="app-title">FocusFlow</h1>
+                <div class="date-container">
+                    <div class="greeting" id="greeting">Good Morning</div>
+                    <p id="current-date" class="current-date"></p>
+                    <div class="time-indicator">
+                        <span id="current-time"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="quote-container">
+                <p id="motivational-quote" class="motivational-quote"></p>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="day-selector">
+                <button class="day-btn" data-day="Monday"><span class="desktop-text">Mon</span><span class="mobile-text">Monday</span></button>
+                <button class="day-btn" data-day="Tuesday"><span class="desktop-text">Tue</span><span class="mobile-text">Tuesday</span></button>
+                <button class="day-btn" data-day="Wednesday"><span class="desktop-text">Wed</span><span class="mobile-text">Wednesday</span></button>
+                <button class="day-btn" data-day="Thursday"><span class="desktop-text">Thu</span><span class="mobile-text">Thursday</span></button>
+                <button class="day-btn" data-day="Friday"><span class="desktop-text">Fri</span><span class="mobile-text">Friday</span></button>
+                <button class="day-btn" data-day="Saturday"><span class="desktop-text">Sat</span><span class="mobile-text">Saturday</span></button>
+                <button class="day-btn" data-day="Sunday"><span class="desktop-text">Sun</span><span class="mobile-text">Sunday</span></button>
+            </div>
+            
+            <div class="timeline-container">
+                <div id="task-container" class="task-container">
+                    </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

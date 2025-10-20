@@ -1,0 +1,416 @@
+:root {
+    --primary-color: #FFFFFF; 
+    --secondary-color: #DDDDDD; 
+    --accent-color: #000000; 
+    --background-color: #0A0A0A; 
+    --surface-color-light: rgba(255, 255, 255, 0.08); 
+    --surface-color-dark: rgba(0, 0, 0, 0.2); 
+    --text-primary: #FFFFFF;
+    --text-secondary: #AAAAAA;
+    --border-radius: 20px;
+    --blur-intensity: 40px; 
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.6); 
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --current-task-color: #E6E6E6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* --- Liquid Background Effect --- */
+.liquid-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    filter: saturate(0.5); 
+}
+
+.water-drop {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    animation: drop-fall 20s infinite linear; 
+    opacity: 0;
+}
+
+@keyframes drop-fall {
+    0% { transform: translateY(-50px) scale(0.4); opacity: 0; }
+    10% { opacity: 0.3; transform: scale(0.6); }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(110vh) scale(1.2); opacity: 0; }
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header & Glass/Liquid Style --- */
+.liquid-header {
+    background: var(--surface-color-light);
+    backdrop-filter: blur(var(--blur-intensity));
+    border-radius: var(--border-radius);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.date-container {
+    text-align: right;
+}
+
+.greeting {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.current-date {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.time-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.time-indicator::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--primary-color);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+.quote-container {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.motivational-quote {
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+}
+
+/* --- Day Selector (Desktop Default) --- */
+.day-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.day-btn {
+    background: var(--surface-color-light);
+    backdrop-filter: blur(calc(var(--blur-intensity) / 2));
+    border: none;
+    border-radius: 12px; 
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); 
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+/* Ẩn/Hiện tên ngày theo màn hình */
+.day-btn .desktop-text { display: inline; }
+.day-btn .mobile-text { display: none; }
+
+.day-btn.active {
+    color: var(--accent-color);
+    background-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); 
+    transform: translateX(5px);
+    font-weight: 700;
+}
+
+.day-btn:not(.active):hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(3px);
+}
+
+
+/* --- Timeline Container (Đã xóa kẻ sọc ngang) --- */
+.timeline-container {
+    background: var(--surface-color-light);
+    backdrop-filter: blur(var(--blur-intensity));
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    min-height: 600px;
+    max-height: 700px; 
+    overflow-y: auto;
+    position: relative;
+    
+    /* FIX: Loại bỏ các đường kẻ sọc trắng */
+    background-image: none; 
+}
+
+/* Custom scrollbar for liquid feel */
+.timeline-container::-webkit-scrollbar {
+    width: 8px;
+}
+.timeline-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+.timeline-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: var(--transition);
+}
+.timeline-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* --- Task Cards (Parallax + Scale + Fade) --- */
+.task-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+    padding-top: 1px; 
+    /* Padding cho desktop để đồng bộ với mobile khi resize */
+    padding-left: 0; 
+    position: relative; /* Quan trọng cho timeline mobile */
+}
+
+.task-card {
+    /* Variables for JS to control */
+    --parallax-scale: 0.85; 
+    --parallax-opacity: 0.5;
+
+    background: var(--surface-color-dark);
+    border-radius: 15px; 
+    padding: 1.2rem 1.5rem;
+    
+    /* Apply Parallax effect */
+    transform: scale(var(--parallax-scale));
+    opacity: var(--parallax-opacity);
+    
+    transition: background 0.3s, border 0.3s, box-shadow 0.3s, transform 0.3s ease-out, opacity 0.3s ease-out; 
+    
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.task-card.current {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
+    z-index: 10;
+}
+
+.task-card:hover {
+    transform: scale(calc(var(--parallax-scale) + 0.03)); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 20;
+}
+
+.task-card.current:hover {
+     transform: scale(1.02); 
+}
+
+.task-card.past {
+    opacity: 0.6;
+    filter: grayscale(100%);
+}
+
+.task-card.past h3 {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+.task-icon {
+    font-size: 1.8rem;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.task-card.current .task-icon {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.task-content { flex: 1; }
+.task-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--primary-color); }
+.task-time { font-size: 0.9rem; color: var(--text-secondary); font-weight: 300; }
+.no-tasks { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-style: italic; font-size: 1.2rem; }
+
+
+/* --- Responsive Adjustments (Mobile Fix & Timeline) --- */
+@media (max-width: 900px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    /* Day Selector for Mobile */
+    .day-selector {
+        flex-direction: row;
+        overflow-x: auto; 
+        padding-bottom: 5px; 
+        gap: 0.5rem; 
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; 
+    }
+
+    /* Hide scrollbar Webkit */
+    .day-selector::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .day-btn {
+        width: auto; 
+        min-width: 80px; 
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+        text-align: center;
+        border-radius: 10px;
+    }
+
+    /* Hiển thị tên đầy đủ trên mobile */
+    .day-btn .desktop-text { display: none; }
+    .day-btn .mobile-text { display: inline; }
+    
+    .day-btn.active {
+        transform: none; 
+    }
+
+    .timeline-container {
+        padding: 1rem;
+        max-height: 60vh; 
+        min-height: 400px;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* --- FEATURE: Timeline và Status Dots (Chỉ trên Mobile) --- */
+    /* ------------------------------------------------------------------ */
+    
+    /* Đảm bảo task-container có không gian cho timeline */
+    .task-container {
+        padding-left: 25px; 
+    }
+
+    /* 1. Đường kẻ dọc (Timeline Line) */
+    .task-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 10px; 
+        width: 2px;
+        background: rgba(255, 255, 255, 0.15); 
+        z-index: 5;
+    }
+
+    /* 2. Status Dot/Tick bên cạnh mỗi Card */
+    .task-card::before {
+        content: '';
+        position: absolute;
+        left: -20px; 
+        top: 1.5rem; 
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--text-secondary); 
+        border: 2px solid var(--background-color); 
+        z-index: 10;
+        transition: all 0.3s;
+    }
+
+    /* Trạng thái 1: Task hiện tại (Current) */
+    .task-card.current::before {
+        width: 16px;
+        height: 16px;
+        background: var(--primary-color);
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+    
+    /* Trạng thái 2: Task đã qua (Past) - Biến thành dấu tick */
+    .task-card.past::before {
+        content: '✓'; 
+        width: 18px;
+        height: 18px;
+        line-height: 18px; 
+        text-align: center;
+        font-size: 14px;
+        font-weight: 900;
+        background: #00CC66; 
+        color: var(--accent-color); 
+        border: none;
+    }
+}
